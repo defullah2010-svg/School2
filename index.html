@@ -35,8 +35,34 @@ header h1, header h2 { margin:3px 0; font-size:16px; }
 .tab-content { display:none; padding:10px; background:white; border-radius:8px; margin:5px; }
 .tab-content.active { display:block; }
 
-label { display:block; margin:5px 0 2px; font-weight:bold; font-size:12px; background:transparent; }
-input, textarea { width:100%; padding:4px; border:1px solid #c2c1c2; border-radius:4px; margin-bottom:5px; box-sizing:border-box; font-size:12px; }
+/* ✅ محاذاة جميع الليبلات وخانات الإدخال في المنتصف لجميع التبويبات */
+.tab-content div,
+.tab-content label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* وسط أفقي */
+  justify-content: center; /* وسط عمودي */
+  text-align: center;
+  width: 100%;
+}
+
+label {
+  text-align: center !important;
+  font-weight: bold;
+  font-size: 12px;
+  background: transparent;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 4px;
+  border: 1px solid #c2c1c2;
+  border-radius: 4px;
+  margin-bottom: 5px;
+  box-sizing: border-box;
+  font-size: 12px;
+  text-align: center; /* النص داخل الخانة في المنتصف */
+}
 textarea { min-height:40px; }
 
 button { 
@@ -74,7 +100,7 @@ footer {
 
 <header>
 <h1>إدارة تعليم منطقة المدينة المنورة</h1>
-<h2>مدرسة متوسطة أبي بكر الصديق رضي الله عنه</h2>
+<h2>متوسطة أبي بكر الصديق رضي الله عنه</h2>
 </header>
 
 <div class="tabs">
@@ -85,7 +111,7 @@ footer {
 
 <!-- التقرير اليومي -->
 <div id="daily" class="tab-content active">
-<label style="text-align:center;"><h2>التقرير اليومي</h2></label>
+<label><h2>التقرير اليومي</h2></label>
 <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:5px;">
   <div><label>اسم المعلم</label><input type="text"></div>
   <div><label>التخصص</label><input type="text"></div>
@@ -115,7 +141,7 @@ footer {
   <input type="text"><input type="text"><input type="text">
 </div>
 
-<label style="text-align:center;">رفع الشواهد (صور)</label>
+<label>رفع الشواهد (صور)</label>
 <input type="file" multiple accept="image/*" onchange="storeImages(event,'daily')">
 <div id="daily-counter" style="font-size:12px; color:#15445a; font-weight:bold;">عدد الصور المرفوعة: 0 / 4</div>
 <div id="daily-preview" style="display:flex; gap:5px; flex-wrap:wrap; margin-top:5px;"></div>
@@ -125,7 +151,7 @@ footer {
 
 <!-- التقرير الأسبوعي -->
 <div id="weekly" class="tab-content">
-<label style="text-align:center;"><h2>التقرير الأسبوعي</h2></label>
+<label><h2>التقرير الأسبوعي</h2></label>
 <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:5px;">
   <div><label>اسم المعلم</label><input type="text"></div>
   <div><label>التخصص</label><input type="text"></div>
@@ -173,7 +199,7 @@ footer {
   <input type="text"><input type="text"><input type="text">
 </div>
 
-<label style="text-align:center;">رفع الشواهد (صور)</label>
+<label>رفع الشواهد (صور)</label>
 <input type="file" multiple accept="image/*" onchange="storeImages(event,'weekly')">
 <div id="weekly-counter" style="font-size:12px; color:#15445a; font-weight:bold;">عدد الصور المرفوعة: 0 / 4</div>
 <div id="weekly-preview" style="display:flex; gap:5px; flex-wrap:wrap; margin-top:5px;"></div>
@@ -183,7 +209,7 @@ footer {
 
 <!-- التقرير الشهري -->
 <div id="monthly" class="tab-content">
-<label style="text-align:center;"><h2>التقرير الشهري</h2></label>
+<label><h2>التقرير الشهري</h2></label>
 <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:5px;">
   <div><label>اسم المعلم</label><input type="text"></div>
   <div><label>التخصص</label><input type="text"></div>
@@ -193,7 +219,7 @@ footer {
 <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:5px;">
   <div><label>الشهر</label><input type="text"></div>
   <div><label>التاريخ</label><input type="text" id="monthlyDate" placeholder="DD-MM-YYYY"></div>
-  <div><label>نسبة إنجاز الخطة  </label><input type="text"></div>
+  <div><label>نسبة إنجاز الخطة</label><input type="text"></div>
 </div>
 
 <label>أبرز التحسينات في أداء الطلاب</label>
@@ -233,7 +259,7 @@ footer {
   <input type="text"><input type="text"><input type="text">
 </div>
 
-<label style="text-align:center;">رفع الشواهد (صور)</label>
+<label>رفع الشواهد (صور)</label>
 <input type="file" multiple accept="image/*" onchange="storeImages(event,'monthly')">
 <div id="monthly-counter" style="font-size:12px; color:#15445a; font-weight:bold;">عدد الصور المرفوعة: 0 / 4</div>
 <div id="monthly-preview" style="display:flex; gap:5px; flex-wrap:wrap; margin-top:5px;"></div>
@@ -330,7 +356,6 @@ flatpickr("#monthlyDate",{ locale:'ar', dateFormat:"d-m-Y", altInput:true, altFo
 function printPDF(tabId){
   const content = document.getElementById(tabId).cloneNode(true);
   
-  // إزالة أزرار الملفات والعداد والمعاينة
   content.querySelectorAll('button,input[type="file"],#'+tabId+'-counter,#'+tabId+'-preview').forEach(el=>el.remove());
   content.querySelectorAll('input[type="text"]').forEach(input=>{
     if(input.placeholder==="DD-MM-YYYY") input.placeholder = '';
